@@ -32,7 +32,7 @@ class Calculator:
     # "Get 7-days status count"
     def get_week_stats(self):
         sum_amount = 0
-        today = dt.datetime.now()
+        today = dt.date.today()
         delta = dt.timedelta(days=7)
         start_date = today - delta
         for i in self.records:
