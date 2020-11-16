@@ -56,24 +56,24 @@ class CaloriesCalculator(Calculator):
 
 
 class CashCalculator(Calculator):
+    EURO_RATE = 90.0
+    USD_RATE = 77.0
 
     def __str__(self):
         return f'{self.limit}'
 
     def get_today_cash_remained(self, currency):
-        EURO_RATE = 90.0
-        USD_RATE = 77.0
         currencies = {
             'rub': [1, 'руб'],
-            'usd': [USD_RATE, 'usd'],
-            'eur': [EURO_RATE, 'euro']
+            'usd': [self.USD_RATE, 'usd'],
+            'eur': [self.EURO_RATE, 'euro']
         }
         today_cash_spend = super().get_today_status()
         today_cash_left = self.limit - today_cash_spend
         rate = currencies[currency]
         money = round(today_cash_left / rate[0], 2)
         if money > 0:
-            return f'На сегодня осталось {money}, {rate[1]}'
+            return f'На сегодня осталось {money} {rate[1]}'
         elif money == 0:
             return 'Денег нет, держись'
         else:
