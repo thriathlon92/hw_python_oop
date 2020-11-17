@@ -26,11 +26,8 @@ class Calculator:
         self.records.append(new_record)
 
     def get_today_stats(self):
-        today_amount = 0
-        now = dt.datetime.now()
-        for i in self.records:
-            if i.date == now.date():
-                today_amount += i.amount
+        now = dt.date.today()
+        today_amount = sum([i.amount for i in self.records if i.date == now])
         return today_amount
 
     # "Get 7-days status count"
