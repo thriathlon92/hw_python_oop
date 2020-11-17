@@ -54,31 +54,30 @@ class CaloriesCalculator(Calculator):
         if super().get_remainder() > 0:
             return f'Сегодня можно съесть что-нибудь ещё,' \
                    f' но с общей калорийностью не более {super().get_remainder()} кКал'
-        else:
-            return 'Хватит есть!'
+        return 'Хватит есть!'
 
 
 class CashCalculator(Calculator):
-    EURO_RATE = 90.0
-    USD_RATE = 77.0
+    EURO_RATE = 60.0
+    USD_RATE = 50.0
 
     def __str__(self):
         return f'{self.limit}'
 
     def get_today_cash_remained(self, currency):
+
         currencies = {
-            'rub': [1, 'руб'],
-            'usd': [self.USD_RATE, 'USD'],
-            'eur': [self.EURO_RATE, 'Euro'],
+            'rub': (1, 'руб'),
+            'usd': (self.USD_RATE, 'USD'),
+            'eur': (self.EURO_RATE, 'Euro'),
         }
-        rate = currencies[currency]
+        rate, cash_currency = currencies[currency]
         money = round(super().get_remainder() / rate[0], 2)
         if money > 0:
-            return f'На сегодня осталось {money} {rate[1]}'
+            return f'На сегодня осталось {money} {cash_currency}'
         elif money == 0:
             return 'Денег нет, держись'
-        else:
-            return f'Денег нет, держись: твой долг - {abs(money)} {rate[1]}'
+        return f'Денег нет, держись: твой долг - {abs(money)} {cash_currency}'
 
 
 if __name__ == "__main__":
