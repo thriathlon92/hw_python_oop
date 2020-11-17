@@ -8,7 +8,10 @@ class Record:
     def __init__(self, amount, comment, date=None):
         self.amount = amount
         self.comment = comment
-        self.date = dt.datetime.strptime(date, DATE_FORMAT).date() if date else dt.datetime.now().date()
+        if date is not None:
+            self.date = dt.datetime.strptime(date, DATE_FORMAT).date()
+        else:
+            self.date = dt.date.today()
 
     def __str__(self):
         return f'{self.amount}'
@@ -79,3 +82,15 @@ class CashCalculator(Calculator):
             return 'Денег нет, держись'
         else:
             return f'Денег нет, держись: твой долг - {abs(money)} {rate[1]}'
+
+cash_calculator = CashCalculator(1000)
+
+# дата в параметрах не указана,
+# так что по умолчанию к записи должна автоматически добавиться сегодняшняя дата
+cash_calculator.add_record(Record(amount=145, comment="кофе"))
+# и к этой записи тоже дата должна добавиться автоматически
+cash_calculator.add_record(Record(amount=300, comment="Серёге за обед"))
+# а тут пользователь указал дату, сохраняем её
+cash_calculator.add_record(Record(amount=3000, comment="бар в Танин др", date="08.11.2019"))
+
+print(cash_calculator.get_today_cash_remained("rub"))
