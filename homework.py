@@ -1,13 +1,14 @@
 import datetime as dt
 
+DATE_FORMAT = '%d.%m.%Y'
+
 
 class Record:
-    date_format = '%d.%m.%Y'
 
     def __init__(self, amount, comment, date=None):
         self.amount = amount
         self.comment = comment
-        self.date = dt.datetime.strptime(date, self.date_format).date() if date else dt.datetime.now().date()
+        self.date = dt.datetime.strptime(date, DATE_FORMAT).date() if date else dt.datetime.now().date()
 
     def __str__(self):
         return f'{self.amount}'
