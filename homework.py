@@ -14,7 +14,10 @@ class Record:
             self.date = dt.date.today()
 
     def __str__(self):
-        return f'{self.amount} {self.comment} {self.date}'
+        amount = self.amount
+        comment = self.comment
+        date = self.date
+        return f'{amount} {comment} {date}'
 
 
 class Calculator:
@@ -37,8 +40,8 @@ class Calculator:
         today = dt.date.today()
         delta = dt.timedelta(days=days)
         start_date = today - delta
-        return sum([i.amount for i in self.records
-                    if start_date < i.date <= today])
+        return sum(i.amount for i in self.records
+                   if start_date < i.date <= today)
 
     # "Function for today limit calculation"
     def get_remainder(self):
