@@ -54,10 +54,10 @@ class Calculator:
 class CaloriesCalculator(Calculator):
 
     def get_calories_remained(self):
-        calories_amount = super().get_remainder()
+        calories_amount = self.get_remainder()
         if calories_amount > 0:
-            return f'Сегодня можно съесть что-нибудь ещё,' \
-                   f' но с общей калорийностью не более {calories_amount} кКал'
+            return ("Сегодня можно съесть что-нибудь ещё,"
+                    f" но с общей калорийностью не более {calories_amount} кКал")
         return 'Хватит есть!'
 
 
@@ -78,15 +78,16 @@ class CashCalculator(Calculator):
         try:
             rate, cash_currency = currencies[currency]
         except KeyError:
-            print("Incorrect currency was given")
-        else:
-            money = super().get_remainder() / rate
-            if money > 0:
-                return f'На сегодня осталось {money:.2f} {cash_currency}'
-            elif money == 0:
-                return 'Денег нет, держись'
-            money = abs(money)
-            return f'Денег нет, держись: твой долг - {money:.2f} {cash_currency}'
+            return (f"Incorrect currency was given: "
+                    f"{currency}, instead of rub/usd/eur")
+
+        money = super().get_remainder() / rate
+        if money > 0:
+            return f'На сегодня осталось {money:.2f} {cash_currency}'
+        elif money == 0:
+            return 'Денег нет, держись'
+        money = abs(money)
+        return f'Денег нет, держись: твой долг - {money:.2f} {cash_currency}'
 
 
 if __name__ == "__main__":
@@ -100,4 +101,4 @@ if __name__ == "__main__":
     # а тут пользователь указал дату, сохраняем её
     cash_calculator.add_record(Record(amount=3000, comment="бар в Танин др", date="08.11.2019"))
 
-    print(cash_calculator.get_today_cash_remained("rub"))
+    print(cash_calculator.get_today_cash_remained("ru"))
