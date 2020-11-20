@@ -17,7 +17,7 @@ class Record:
         amount = self.amount
         comment = self.comment
         date = self.date
-        return f'{amount} {comment} {date}'
+        return f'{amount} {comment} {date:%d.%m.%Y}'
 
 
 class Calculator:
@@ -55,10 +55,10 @@ class CaloriesCalculator(Calculator):
 
     def get_calories_remained(self):
         calories_amount = self.get_remainder()
-        if calories_amount > 0:
-            return ('Сегодня можно съесть что-нибудь ещё,'
-                    f' но с общей калорийностью не более {calories_amount} кКал')
-        return 'Хватит есть!'
+        if calories_amount <= 0:
+            return 'Хватит есть!'
+        return ('Сегодня можно съесть что-нибудь ещё,'
+                f' но с общей калорийностью не более {calories_amount} кКал')
 
 
 class CashCalculator(Calculator):
@@ -81,7 +81,7 @@ class CashCalculator(Calculator):
             return ('Incorrect currency was given: '
                     f'{currency}, instead of rub/usd/eur!')
 
-        money = super().get_remainder() / rate
+        money = self.get_remainder() / rate
 
         if money == 0:
             return 'Денег нет, держись'
@@ -92,7 +92,7 @@ class CashCalculator(Calculator):
                 f'- {money:.2f} {cash_currency}')
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     cash_calculator = CashCalculator(1000)
 
     # дата в параметрах не указана,
